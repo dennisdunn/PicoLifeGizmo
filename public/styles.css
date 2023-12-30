@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+.brand {
+    font-size: larger;
+    font-weight: bold;
+}
+
+nav {
+    display:flex;
+    justify-content: space-between;
+}
+
+a {
+    margin-right: 1rem;
+    cursor:pointer;
+    padding:0.1rem;
+}
+
+a:hover{
+    background-color: lightblue;
+}
