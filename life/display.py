@@ -1,12 +1,13 @@
 from picounicorn import PicoUnicorn
-from color import Colors
+from life.color import Colors
+
 
 class LedMatrix:
     def __init__(self) -> None:
         self._board = PicoUnicorn()
-        self._height = 7
-        self._width = 16
-        
+        self._height = self._board.get_height()
+        self._width = self._board.get_width()
+
     def size(self):
         return (self._width, self._height)
 
@@ -18,12 +19,14 @@ class LedMatrix:
     def setPixel(self, xy, color):
         (x, y) = xy
         (r, g, b) = Colors[color]
-        self._board.set_pixel(x % self._width, y % self._height, r, g, b)  # toroidal display
+        self._board.set_pixel(x % self._width, y %
+                              self._height, r, g, b)  # toroidal display
 
     def setPixels(self, cells):
-        for xy,color in cells.items():
-            self.setPixel(xy,color)
-            
+        for xy, color in cells.items():
+            self.setPixel(xy, color)
+
+
 if __name__ == "__main__":
     cells = {
         (7, 3): "blue",

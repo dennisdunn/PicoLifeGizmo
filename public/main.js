@@ -31,7 +31,7 @@ function createNavbar() {
     const nav = document.querySelector('nav .patterns');
     for (let key in patterns) {
         const button = document.createElement('a');
-        button.onclick = ()=>loadEditor(key);
+        button.onclick = () => loadEditor(key);
         button.innerText = key;
         nav.appendChild(button);
     }
@@ -46,7 +46,23 @@ function clearEditor() {
 
 function uploadEditor() {
     const cells = readEditor();
-    console.log(cells);
+    postJSON(cells);
+}
+
+async function postJSON(data) {
+    try {
+        const response = await fetch("/cells", {
+            method: "POST", // or 'PUT'
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+
+        await response.json();
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
 
 function readEditor() {
