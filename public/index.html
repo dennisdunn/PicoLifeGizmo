@@ -9,13 +9,18 @@
 </head>
 
 <body>
+    <header>
     <nav>
         <span class="brand">Pico Life Editor</span>
-        <div class="patterns"></div>
-        <button onclick="clearEditor()">Clear</button>
-        <button onclick="uploadEditor()">Run</button>
+        <select class="patterns">
+            <optgroup label="Patterns"></optgroup>
+            <option onclick="clearEditor()">None</option>
+        </select>
+        <div>
+            <a role="button" onclick="reset()">&#8999;</a>
+            <a role="button" onclick="uploadEditor()">&#9205;</a>
+        </div>
     </nav>
-    <header>
     </header>
     <main>
         <div class="editor">

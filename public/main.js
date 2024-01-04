@@ -28,13 +28,19 @@ function createEditor() {
 }
 
 function createNavbar() {
-    const nav = document.querySelector('nav .patterns');
+    const select = document.querySelector('nav .patterns');
     for (let key in patterns) {
-        const button = document.createElement('a');
-        button.onclick = () => loadEditor(key);
-        button.innerText = key;
-        nav.appendChild(button);
+        const option = document.createElement('option');
+        option.onclick = () => loadEditor(key);
+        option.innerText = key;
+        select.appendChild(option);
     }
+}
+
+function reset(){    
+    const opt = document.querySelector('select :nth-child(2)');
+    opt.selected = true;
+    clearEditor();
 }
 
 function clearEditor() {
