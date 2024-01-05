@@ -29,17 +29,18 @@ function createEditor() {
 
 function createNavbar() {
     const select = document.querySelector('nav .patterns');
+    select.addEventListener('change', evt => loadEditor(evt));
+    const group = document.querySelector('nav .patterns optgroup')
     for (let key in patterns) {
         const option = document.createElement('option');
-        option.onclick = () => loadEditor(key);
         option.innerText = key;
-        select.appendChild(option);
+        group.appendChild(option);
     }
 }
 
-function reset(){    
-    const opt = document.querySelector('select :nth-child(2)');
-    opt.selected = true;
+function reset() {
+    const select = document.querySelector('nav .patterns');
+    select.selectedIndex = 0;
     clearEditor();
 }
 
@@ -58,14 +59,13 @@ function uploadEditor() {
 async function postJSON(data) {
     try {
         const response = await fetch("/cells", {
-            method: "POST", // or 'PUT'
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         });
-
-        await response.json();
+        await response.text();
     } catch (error) {
         console.error("Error:", error);
     }
@@ -91,12 +91,13 @@ function setEditor(cells) {
     }
 }
 
-function loadEditor(name) {
-    const cells = patterns[name];
+function loadEditor(evt) {
+    const cells = patterns[evt.target.value];
     setEditor(cells);
 }
 
 const patterns = {
+    "None": [],
     "Blinkers": [
         { "x": 9, "y": 1 },
         { "x": 10, "y": 1 },

@@ -17,7 +17,6 @@ ca.cells = {
     (2, 2): "blue"
 }
 
-
 async def ca_update():
     while True:
         ca.update()

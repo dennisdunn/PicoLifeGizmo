@@ -28,7 +28,7 @@ class Server:
             type = path.split('.')[1]
             return content, {'Content-Type': MimeTypes[type]}
 
-        @app.post('/cells')
+        @app.put('/cells')
         async def set_cells(request):
             cells = {}
             for cell in request.json:
