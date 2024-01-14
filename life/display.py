@@ -1,23 +1,22 @@
 from picounicorn import PicoUnicorn
 from picographics import PicoGraphics, DISPLAY_UNICORN_PACK
-from life.colormap import WheelMap as ColorMap
 
 
 class LedMatrix:
-    def __init__(self) -> None:
+    def __init__(self):
         self._picounicorn = PicoUnicorn()
         self._graphics = PicoGraphics(display=DISPLAY_UNICORN_PACK)
+
         self._width, self._height = self._graphics.get_bounds()
 
     def clear(self):
-        pen = self._graphics.create_pen(0,0,0)
+        pen = self._graphics.create_pen(0, 0, 0)
         self._graphics.set_pen(pen)
         self._graphics.clear()
 
     def setPixel(self, xy, age):
         (x, y) = xy
-        (r, g, b) = ColorMap[age % len(ColorMap)]
-        pen = self._graphics.create_pen(r,g,b)
+        pen = self._graphics.create_pen_hsv(self._age2hue(age), 1.0, 1.0)
         self._graphics.set_pen(pen)
         self._graphics.pixel(x % self._width, y % self._height)  # toroidal display
 
@@ -27,15 +26,19 @@ class LedMatrix:
             self.setPixel(xy, age)
         self._picounicorn.update(self._graphics)
 
+    def _age2hue(self, age):
+        return 0.6666 - 0.0026 * (age % 256)
+
 
 if __name__ == "__main__":
     import time
     display = LedMatrix()
 
-    for (r, g, b) in ColorMap:
-        pen = display._graphics.create_pen(r,g,b)
+    for h in range(256):
+        pen = display._graphics.create_pen_hsv(0.66-0.0026*h, 1.0, 1.0)
         display._graphics.set_pen(pen)
         display._graphics.clear()
         display._picounicorn.update(display._graphics)
         time.sleep_ms(25)
 
+    display.clear()

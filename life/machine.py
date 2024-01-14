@@ -1,3 +1,4 @@
+
 class Machine:
     def __init__(self):
         self._cells = {}
@@ -11,18 +12,18 @@ class Machine:
         next = {}
         counts = self._countNeighbors()
 
-        for xy in counts:
+        for xy, count in counts.items():
             if xy in self._cells:  # is alive
-                if counts[xy] == 2 or counts[xy] == 3:  # stayin' alive
-                    next[xy] = self._cells[xy]
-                    next[xy] += 1
+                if count == 2 or count == 3:  # stayin' alive
+                    next[xy] = self._cells[xy] + 1
                 else:
                     continue  # unalived
             else:  # unalive
-                if counts[xy] == 3:
+                if count == 3:
                     next[xy] = 0  # newly alived
 
         self._cells = next
+        print(len(next))
 
     def _countNeighbors(self):
         """For each cell, update the count of
@@ -50,16 +51,12 @@ class Machine:
 
 
 if __name__ == '__main__':
-    import time
-    from life.display import LedMatrix
-    from life.patterns import Beacon as pattern
+    from life.patterns import Blinker as pattern
 
     life = Machine()
-    display = LedMatrix()
 
     life.load(pattern)
 
-    while True:
+    for _ in range(5):
         life.update()
-        display.setPixels(life._cells)
-        time.sleep(0.1)
+        print(life._cells)
