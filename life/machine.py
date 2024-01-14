@@ -3,9 +3,9 @@ class Machine:
     def __init__(self):
         self._cells = {}
 
-    def load(self, xys):
+    def load(self, tuples):
         self._cells = {}
-        for xy in xys:
+        for xy in tuples:
             self._cells[xy] = 0
 
     def update(self):
@@ -23,7 +23,6 @@ class Machine:
                     next[xy] = 0  # newly alived
 
         self._cells = next
-        print(len(next))
 
     def _countNeighbors(self):
         """For each cell, update the count of

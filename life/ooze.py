@@ -12,24 +12,23 @@ class PrimodialOoze:
 
     async def tick(self,sec):
         self.syncTick()
-        await asyncio.sleep(sec)
+        await asyncio.sleep(sec)    
+        
+    async def evolve(self, sec):
+        while True:
+            await ooze.tick(sec)
 
 
 if __name__ == '__main__':
-    import time
     from life.machine import Machine
     from life.display import LedMatrix
-    from life.patterns import R_Pentonimo as seed
+    from life.patterns import Glider as seed
 
-    life = Machine()
+    engine = Machine()
     world = LedMatrix()
 
-    ooze = PrimodialOoze(life, world, seed)
-
-    async def timeline():
-        while True:
-            await ooze.tick(0.1)
-
-    t1 = asyncio.run(timeline())
+    ooze = PrimodialOoze(engine, world, seed)
+    
+    asyncio.run(ooze.evolve(0.1))
 
     
