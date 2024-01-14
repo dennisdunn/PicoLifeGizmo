@@ -17,7 +17,7 @@ class PrimodialOoze:
     async def evolve(self, seed):
         self._engine.load(seed)
         while True:
-            await ooze.tick()
+            await self.tick()
 
 
 if __name__ == '__main__':
