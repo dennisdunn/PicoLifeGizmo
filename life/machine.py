@@ -1,24 +1,30 @@
 class Machine:
     def __init__(self):
-        self.cells = {}
+        self._cells = {}
+
+    def load(self, xys):
+        self._cells = {}
+        for xy in xys:
+            self._cells[xy] = 0
 
     def update(self):
         next = {}
-        alive = self._filter(self.cells)
-        counts = self._countNeighbors(alive)
-        for key in counts.keys():
-            if key in alive:  # is alive
-                if counts[key] == 2 or counts[key] == 3:  # stayed alive
-                    next[key] = self.cells[key]
+        counts = self._countNeighbors()
+
+        for xy in counts:
+            if xy in self._cells:  # is alive
+                if counts[xy] == 2 or counts[xy] == 3:  # stayin' alive
+                    next[xy] = self._cells[xy]
+                    next[xy] += 1
                 else:
-                    next[key] = "black"  # unalived
+                    continue  # unalived
             else:  # unalive
-                if counts[key] == 3:
-                    next[key] = "blue"  # newly alived
+                if counts[xy] == 3:
+                    next[xy] = 0  # newly alived
 
-        self.cells = next
+        self._cells = next
 
-    def _countNeighbors(self, cells):
+    def _countNeighbors(self):
         """For each cell, update the count of
         cells who have this one as a neighbor.
 
@@ -28,27 +34,37 @@ class Machine:
         deltas = [-1, 0, 1]
         counts = {}
 
-        for key in cells.keys():
-            (x, y) = key
+        for xy in self._cells:
+            (x, y) = xy
             for dx in deltas:
                 for dy in deltas:
                     ckey = (x+dx, y+dy)
-                    if key == ckey:
+                    if xy == ckey:
                         continue
-                    if ckey in counts:
+                    if ckey in counts:  # defaultdict(int)
                         counts[ckey] += 1
                     else:
                         counts[ckey] = 1
+
         return counts
 
-    def _filter(self, cells):
-        """Remove all of the dead cells.
 
-        Args:
-            cells (_type_): _description_
-        """
-        alive = dict(cells)
-        for key in cells:
-            if (cells[key] == "black"):
-                del alive[key]
-        return alive
+if __name__ == '__main__':
+    import time
+    from life.display import LedMatrix
+
+    life = Machine()
+    display = LedMatrix()
+
+    life.load([
+        (1, 0),
+        (2, 1),
+        (0, 2),
+        (1, 2),
+        (2, 2)
+    ])
+
+    while True:
+        life.update()
+        display.setPixels(life._cells)
+        time.sleep(0.1)
