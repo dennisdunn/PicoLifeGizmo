@@ -50,12 +50,16 @@ class Machine:
 
 
 if __name__ == '__main__':
-    from life.patterns import Blinker as pattern
+    try:
+        from life.patterns import Blinker as pattern
 
-    life = Machine()
+        life = Machine()
 
-    life.load(pattern)
+        life.load(pattern)
 
-    for _ in range(5):
-        life.update()
-        print(life._cells)
+        for _ in range(5):
+            life.update()
+            print(life._cells)
+
+    except KeyboardInterrupt:
+        pass

@@ -31,14 +31,17 @@ class LedMatrix:
 
 
 if __name__ == "__main__":
-    import time
-    display = LedMatrix()
+    try:
+        import time
+        display = LedMatrix()
 
-    for h in range(256):
-        pen = display._graphics.create_pen_hsv(0.66-0.0026*h, 1.0, 1.0)
-        display._graphics.set_pen(pen)
-        display._graphics.clear()
-        display._picounicorn.update(display._graphics)
-        time.sleep_ms(25)
+        for h in range(256):
+            pen = display._graphics.create_pen_hsv(0.66-0.0026*h, 1.0, 1.0) # Math is Magic
+            display._graphics.set_pen(pen)
+            display._graphics.clear()
+            display._picounicorn.update(display._graphics)
+            time.sleep_ms(25)
 
-    display.clear()
+        display.clear()
+    except KeyboardInterrupt:
+        pass
