@@ -1,6 +1,6 @@
 from picounicorn import PicoUnicorn
 from picographics import PicoGraphics, DISPLAY_UNICORN_PACK
-from life.colormap import ColorMap
+from life.colormap import WheelMap as ColorMap
 
 
 class LedMatrix:
@@ -29,11 +29,13 @@ class LedMatrix:
 
 
 if __name__ == "__main__":
-    cells = {
-        (7, 3): 0,
-        (7, 4): 0,
-        (7, 5): 0
-    }
+    import time
+    display = LedMatrix()
 
-    disp = LedMatrix()
-    disp.setPixels(cells)
+    for (r, g, b) in ColorMap:
+        pen = display._graphics.create_pen(r,g,b)
+        display._graphics.set_pen(pen)
+        display._graphics.clear()
+        display._picounicorn.update(display._graphics)
+        time.sleep_ms(25)
+

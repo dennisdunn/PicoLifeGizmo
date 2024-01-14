@@ -52,17 +52,12 @@ class Machine:
 if __name__ == '__main__':
     import time
     from life.display import LedMatrix
+    from life.patterns import Beacon as pattern
 
     life = Machine()
     display = LedMatrix()
 
-    life.load([
-        (1, 0),
-        (2, 1),
-        (0, 2),
-        (1, 2),
-        (2, 2)
-    ])
+    life.load(pattern)
 
     while True:
         life.update()
