@@ -6,18 +6,12 @@ class PrimodialOoze:
         self._display = display
         self._period = period
 
-    def syncTick(self):
-        self._engine.update()
-        self._display.setPixels(self._engine._cells)
-
-    async def tick(self):
-        self.syncTick()
-        await asyncio.sleep(self._period)    
-        
     async def evolve(self, seed):
         self._engine.load(seed)
         while True:
-            await self.tick()
+            self._engine.update()
+            self._display.setPixels(self._engine._cells)
+            await asyncio.sleep(self._period)    
 
 
 if __name__ == '__main__':
