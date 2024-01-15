@@ -9,21 +9,6 @@ from life.machine import Machine
 from life.display import LedMatrix
 from life.patterns import Glider as seed
 
-async def listen():
-    ble = bluetooth.BLE()
-    p = BLESimplePeripheral(ble, "PicoLife")
-    
-    def on_receive(msg):
-        try:
-            seed = eval(msg)
-            if isinstance(seed,list) and isinstance(seed[0],tuple):
-                pass
-                # engine.load(seed)
-        except Exception as _e:
-            print(_e)
-
-    p.on_write(on_receive)
-
 try:
     engine = Machine()
     world = LedMatrix()
