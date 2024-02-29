@@ -22,9 +22,9 @@ async def ca_update():
     while True:
         ca.update()
         disp.setPixels(ca.cells)
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.3)
 
 if __name__ == '__main__':
-    mm_wlan.connect_to_network(Cfg['ssid'], Cfg['password'])
+    mm_wlan.connect_to_network(Cfg['ssid'], Cfg['pwd'])
     asyncio.create_task(ca_update())
     server.serve(Cfg['port'])
