@@ -1,5 +1,5 @@
 from picounicorn import PicoUnicorn
-from color import Colors
+from life.color import Colors
 
 class LedMatrix:
     def __init__(self) -> None:

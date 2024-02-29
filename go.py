@@ -1,9 +1,9 @@
-from life import life
-from life import display
+from life.life import Machine
+from life.display import LedMatrix
 import time
 
-disp = display.LedMatrix()
-ca = life.Machine()
+disp = LedMatrix()
+ca = Machine()
 
 ca.cells = {
         (7, 3): "blue",
