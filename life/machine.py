@@ -2,6 +2,11 @@ class Machine:
     def __init__(self):
         self.cells = {}
 
+    def load(self, tuples):
+        self.cells = {}
+        for xy in tuples:
+            self.cells[xy] = "blue"
+
     def update(self):
         next = {}
         alive = self._filter(self.cells)

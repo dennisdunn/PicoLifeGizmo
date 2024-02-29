@@ -1,6 +1,9 @@
 from picounicorn import PicoUnicorn
 from life.color import Colors
+<<<<<<< HEAD
 
+=======
+>>>>>>> 075be2268161a69fb692fb334828f0dc3b79b9b7
 
 class LedMatrix:
     def __init__(self) -> None:
