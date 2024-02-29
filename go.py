@@ -1,17 +1,15 @@
 from life.life import Machine
 from life.display import LedMatrix
+import life.patterns as patterns
 import time
 
 disp = LedMatrix()
 ca = Machine()
 
-ca.cells = {
-        (7, 3): "blue",
-        (7, 4): "blue",
-        (7, 5): "blue"
-    }
+
+ca.load(patterns.Blinker)
 
 while True:
     ca.update()
     disp.setPixels(ca.cells)
-    time.sleep(0.5)
+    time.sleep(0.1)
