@@ -2,7 +2,7 @@ import asyncio
 import bluetooth
 
 from lib.ble_advertising import advertising_payload
-from lib.ble_simple_peripheral import BLESimplePeripheral
+from lib.ble_uart_peripheral import BLEUART
 
 from life.ooze import PrimodialOoze
 from life.machine import Machine
@@ -15,22 +15,15 @@ try:
     ooze = PrimodialOoze(engine, world, 0.1)
     
     ble = bluetooth.BLE()
-    p = BLESimplePeripheral(ble, "PicoLife")
+    uart = BLEUART(ble, "PicoLife")
 
-    buffer = ""
-    def on_receive(msg):
-        global buffer
-        text = msg.decode('UTF-8')
-        if text[0] == '[' :
-            buffer = text
-        else:
-            buffer+=text
-        if buffer[len(buffer)-1]==']':
-            seed = eval(buffer)
-            engine.load(seed)
-
-    p.on_write(on_receive)
+    def on_rx():
+        source = uart.read().decode().strip()
+        engine.load(eval(source))
+        
+    uart.irq(handler=on_rx)
 
     asyncio.run(ooze.evolve(seed))
 except KeyboardInterrupt:
+    uart.close()
     pass
