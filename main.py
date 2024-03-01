@@ -17,13 +17,17 @@ try:
     ble = bluetooth.BLE()
     p = BLESimplePeripheral(ble, "PicoLife")
 
+    buffer = ""
     def on_receive(msg):
-        try:
-            seed = eval(msg)
-            if isinstance(seed,list) and isinstance(seed[0],tuple):
-                engine.load(seed)
-        except Exception as _e:
-            print(_e)
+        global buffer
+        text = msg.decode('UTF-8')
+        if text[0] == '[' :
+            buffer = text
+        else:
+            buffer+=text
+        if buffer[len(buffer)-1]==']':
+            seed = eval(buffer)
+            engine.load(seed)
 
     p.on_write(on_receive)
 
