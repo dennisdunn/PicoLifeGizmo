@@ -51,7 +51,7 @@ class Machine:
 
 if __name__ == '__main__':
     try:
-        from life.patterns import Blinker as pattern
+        from life.pattern import Blinker as pattern
 
         life = Machine()
 
