@@ -6,8 +6,14 @@ from lib.ble_uart_peripheral import BLEUART
 from life.ooze import PrimodialOoze
 from life.machine import Machine
 from life.display import LedMatrix
+from life.loader import Load
 
-DATA_FILE = 'life/pattern.txt'
+DATA_FILE = 'pattern.txt'
+
+def save(data):
+    f = open(DATA_FILE,'w')
+    f.write(data)
+    f.close()
 
 try:
     engine = Machine()
@@ -18,16 +24,15 @@ try:
     uart = BLEUART(ble, "PicoLife")
 
     def on_rx():
-        source = uart.read().decode().strip()
-        f = open(DATA_FILE,'w')
-        f.write(source)
-        engine.load(eval(source))
+        str = uart.read().decode().strip()
+        save(str)
+        Load.source(engine, str)
         
     uart.irq(handler=on_rx)
 
-    f = open(DATA_FILE)
-    seed = eval(f.read())
-    asyncio.run(ooze.evolve(seed))
+    Load.file(engine, DATA_FILE)
+    asyncio.run(ooze.evolve())
 except KeyboardInterrupt:
-    uart.close()
     pass
+
+uart.close()

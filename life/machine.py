@@ -3,11 +3,6 @@ class Machine:
     def __init__(self):
         self._cells = {}
 
-    def load(self, tuples):
-        self._cells = {}
-        for xy in tuples:
-            self._cells[xy] = 0
-
     def update(self):
         next = {}
         counts = self._countNeighbors()
@@ -38,9 +33,9 @@ class Machine:
             (x, y) = xy
             for dx in deltas:
                 for dy in deltas:
-                    ckey = (x+dx, y+dy)
-                    if xy == ckey:
+                    if dx==dy==0:
                         continue
+                    ckey = (x+dx, y+dy)
                     if ckey in counts:  # defaultdict(int)
                         counts[ckey] += 1
                     else:
@@ -50,16 +45,15 @@ class Machine:
 
 
 if __name__ == '__main__':
-    try:
-        from life.pattern import Blinker as pattern
+    from life.loader import Load
 
+    try:      
         life = Machine()
+        Load.source(life, '[(7,1),(7,2),(7,3)]')
 
-        life.load(pattern)
-
-        for _ in range(5):
-            life.update()
+        for _ in range(3):
             print(life._cells)
+            life.update()
 
     except KeyboardInterrupt:
         pass
