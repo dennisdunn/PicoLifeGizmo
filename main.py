@@ -23,10 +23,18 @@ try:
     ble = bluetooth.BLE()
     uart = BLEUART(ble, "PicoLife")
 
+    buffer = ""
     def on_rx():
+        global buffer
         str = uart.read().decode().strip()
-        save(str)
-        Load.source(engine, str)
+        print(str)
+        if str.startswith("["):
+            buffer = str
+        else:
+            buffer += str
+        if buffer.endswith("]"):
+            save(buffer)
+            Load.source(engine, buffer)
         
     uart.irq(handler=on_rx)
 
