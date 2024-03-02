@@ -27,7 +27,6 @@ try:
     def on_rx():
         global buffer
         str = uart.read().decode().strip()
-        print(str)
         if str.startswith("["):
             buffer = str
         else:
